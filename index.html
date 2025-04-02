@@ -13,7 +13,7 @@
         body {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             height: 100vh;
             width: 100vw;
@@ -29,25 +29,36 @@
             font-size: 36px;
             font-weight: bold;
         }
-        .button-container {
+        .button-wrapper {
             position: absolute;
             bottom: 150px;
-            left: 20px;
-            width: calc(100% - 40px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: calc(100% - 62px);
+            height: 82px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border: none;
+            border-radius: 40px;
+        }
+        .button-container {
+            position: relative;
+            width: calc(100% - 12px);
+            height: 100%;
             display: flex;
             align-items: center;
         }
         button {
             position: absolute;
-            left: 0;
             width: 70px;
             height: 70px;
             border-radius: 50%;
             border: none;
             cursor: pointer;
             background-color: white;
-            color: #808080;
-            font-weight: bold;
+            background: no-repeat center center url('./call_icon.png');
+            background-size: cover;
+            opacity: 1;
         }
     </style>
     <script>
@@ -88,9 +99,11 @@
     </script>
 </head>
 <body>
-    <div class="title">이름</div>
-    <div class="button-container">
-        <button>▶</button>
+    <div class="title">KUMI DAYO</div>
+    <div class="button-wrapper">
+        <div class="button-container">
+            <button></button>
+        </div>
     </div>
 </body>
 </html>
