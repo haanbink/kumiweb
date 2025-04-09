@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이름 화면</title>
     <style>
+        @font-face {
+            font-family: 'AppleSDGothicM';
+            src: url('./AppleSDG_M.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
         * {
             margin: 0;
             padding: 0;
@@ -20,8 +26,10 @@
             overflow: hidden;
             background-color: black;
             color: white;
-            font-family: Arial, sans-serif;
+            font-family: 'AppleSDGothicM', sans-serif;
             text-align: center;
+            letter-spacing: 0.01em;
+            font-size: 19px;
             position: relative;
         }
         .background-B {
@@ -56,10 +64,67 @@
             align-items: center;
             width: calc(100% - 62px);
             height: 82px;
-            background-color: rgba(255, 255, 255, 0.5);
+            background-color: transparent;
             border: none;
             border-radius: 40px;
             z-index: 20;
+            transition: transform 0.1s linear;
+        }
+        .button-mask {
+            position: absolute;
+            bottom: 64px;
+            width: calc(100% - 62px);
+            height: 82px;
+            border-radius: 40px;
+            background-color: transparent;
+            display: flex;
+            align-items: center;
+            padding-left: 120px;
+            padding-top: 2px;
+            font-size: 19px;
+            z-index: 19;
+            overflow: hidden;
+            pointer-events: none;
+            color: black;
+            mask-image: linear-gradient(to right, transparent var(--fill-left, 0), black var(--fill-left, 0));
+            -webkit-mask-image: linear-gradient(to right, transparent var(--fill-left, 0), black var(--fill-left, 0));
+            mask-size: 100% 100%;
+            -webkit-mask-size: 100% 100%;
+        }
+        .button-mask::before {
+            content: attr(data-text);
+            position: absolute;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            font-size: 19px;
+            background: radial-gradient(circle, white 5%, transparent 17%);
+            background-size: 200% 100%;
+            background-position: -100% 50%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            animation: shimmer 2s infinite linear;
+        }
+        @keyframes shimmer {
+            0% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: -100% 50%;
+            }
+        }
+        .button-fill {
+            position: absolute;
+            left: 0;
+            bottom: 64px;
+            height: 82px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 40px;
+            z-index: 18;
+            display: block;
         }
         .button-container {
             position: relative;
@@ -67,6 +132,7 @@
             height: 100%;
             display: flex;
             align-items: center;
+            justify-content: flex-start;
         }
         button {
             position: absolute;
@@ -80,6 +146,7 @@
             background: no-repeat center center url('./call_icon.png');
             background-size: cover;
             opacity: 1;
+            z-index: 21;
         }
     </style>
     <script>
@@ -88,21 +155,39 @@
             const container = document.querySelector(".button-container");
             const overlay = document.querySelector(".background-A");
             const buttonWrapper = document.querySelector(".button-wrapper");
+            const buttonFill = document.querySelector(".button-fill");
+            const buttonMask = document.querySelector(".button-mask");
             const body = document.querySelector("body");
             let isDragging = false;
             let startX;
             let startLeft;
             let hidden = false;
 
+            function updateFill(newLeft) {
+                const buttonCenter = newLeft + button.offsetWidth;
+                const fillLeft = buttonCenter - 38;
+                const fillWidth = buttonWrapper.clientWidth - fillLeft + 30;
+
+                buttonFill.style.left = `${fillLeft}px`;
+                buttonFill.style.width = `${fillWidth}px`;
+                buttonMask.style.setProperty('--fill-left', `${fillLeft}px`);
+            }
+
+
             function showUI() {
                 overlay.style.display = 'block';
                 buttonWrapper.style.display = 'flex';
+                buttonFill.style.display = 'block';
+                buttonMask.style.display = 'flex';
                 hidden = false;
+                updateFill(button.offsetLeft);
             }
 
             function hideUI() {
                 overlay.style.display = 'none';
                 buttonWrapper.style.display = 'none';
+                buttonFill.style.display = 'none';
+                buttonMask.style.display = 'none';
                 hidden = true;
             }
 
@@ -119,6 +204,7 @@
                 let newLeft = startLeft + (x - startX);
                 newLeft = Math.max(0, Math.min(newLeft, container.clientWidth - button.clientWidth));
                 button.style.left = `${newLeft}px`;
+                updateFill(newLeft);
                 event.preventDefault();
             }
 
@@ -158,6 +244,8 @@
                     touchTimes = [];
                 }
             });
+
+            updateFill(0);
         });
     </script>
 </head>
@@ -169,5 +257,7 @@
             <button></button>
         </div>
     </div>
+    <div class="button-fill"></div>
+    <div class="button-mask" data-text="밀어서 통화하기">밀어서 통화하기</div>
 </body>
 </html>
