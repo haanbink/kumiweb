@@ -206,13 +206,15 @@
             }
 
 
-            function showUI() {
+             function showUI() {
                 overlay.style.display = 'block';
                 buttonWrapper.style.display = 'flex';
                 buttonFill.style.display = 'block';
                 buttonMask.style.display = 'flex';
                 hidden = false;
                 updateFill(button.offsetLeft);
+                button.style.left = '0px';
+                updateFill(0);
 
                 // 타이머 리셋
                 clearInterval(timerInterval);
@@ -220,7 +222,6 @@
                 timerElement.textContent = "00:00";
                 timerElement.style.display = 'none';
             }
-
             function hideUI() {
                 overlay.style.display = 'none';
                 buttonWrapper.style.display = 'none';
