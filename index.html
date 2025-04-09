@@ -11,6 +11,12 @@
             font-weight: normal;
             font-style: normal;
         }
+        @font-face {
+            font-family: 'SFTextSB';
+            src: url('./SF-Pro-Text-SB.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
         * {
             margin: 0;
             padding: 0;
@@ -148,6 +154,19 @@
             opacity: 1;
             z-index: 21;
         }
+        .timer {
+            position: absolute;
+            top: 98px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'SFTextSB', sans-serif;
+            text-align: center;
+            letter-spacing: -0.025em;
+            font-size: 19px;
+            color: rgba(248, 248, 255, 0.5);
+            z-index: 5;
+            display: none;
+        }
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -162,6 +181,19 @@
             let startX;
             let startLeft;
             let hidden = false;
+            let timerElement = document.querySelector(".timer");
+            let timerInterval;
+            let seconds = 0;
+
+            function startTimer() {
+                timerElement.style.display = 'block';
+                timerInterval = setInterval(() => {
+                    seconds++;
+                    const mins = String(Math.floor(seconds / 60)).padStart(2, '0');
+                    const secs = String(seconds % 60).padStart(2, '0');
+                    timerElement.textContent = `${mins}:${secs}`;
+                }, 1000);
+            }
 
             function updateFill(newLeft) {
                 const buttonCenter = newLeft + button.offsetWidth;
@@ -181,6 +213,12 @@
                 buttonMask.style.display = 'flex';
                 hidden = false;
                 updateFill(button.offsetLeft);
+
+                // 타이머 리셋
+                clearInterval(timerInterval);
+                seconds = 0;
+                timerElement.textContent = "00:00";
+                timerElement.style.display = 'none';
             }
 
             function hideUI() {
@@ -189,6 +227,7 @@
                 buttonFill.style.display = 'none';
                 buttonMask.style.display = 'none';
                 hidden = true;
+                startTimer();
             }
 
             function startDrag(event) {
@@ -259,5 +298,6 @@
     </div>
     <div class="button-fill"></div>
     <div class="button-mask" data-text="밀어서 통화하기">밀어서 통화하기</div>
+    <div class="timer">00:00</div>
 </body>
 </html>
