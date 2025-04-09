@@ -45,14 +45,8 @@
             opacity: 1;
             z-index: 10;
             pointer-events: none;
-            display: block;
+            /* display: block; */
             /* mix-blend-mode: screen; */
-        }
-        .title {
-            margin-top: 150px;
-            font-size: 36px;
-            font-weight: bold;
-            z-index: 20;
         }
         .button-wrapper {
             position: absolute;
@@ -100,6 +94,18 @@
             let startLeft;
             let hidden = false;
 
+            function showUI() {
+                overlay.style.display = 'block';
+                buttonWrapper.style.display = 'flex';
+                hidden = false;
+            }
+
+            function hideUI() {
+                overlay.style.display = 'none';
+                buttonWrapper.style.display = 'none';
+                hidden = true;
+            }
+
             function startDrag(event) {
                 isDragging = true;
                 startX = event.clientX || event.touches[0].clientX;
@@ -117,13 +123,12 @@
             }
 
             function endDrag() {
+                if (!isDragging) return;
                 isDragging = false;
                 const buttonCenter = button.offsetLeft + button.offsetWidth / 2;
                 const containerCenter = container.clientWidth / 2;
                 if (buttonCenter > containerCenter) {
-                    overlay.style.display = 'none';
-                    buttonWrapper.style.display = 'none';
-                    hidden = true;
+                    hideUI();
                 }
             }
 
@@ -146,9 +151,7 @@
                     touchTimes = touchTimes.filter(t => now - t < 1000);
 
                     if (touchTimes.length >= 3 && hidden) {
-                        overlay.style.display = 'block';
-                        buttonWrapper.style.display = 'flex';
-                        hidden = false;
+                        showUI();
                         touchTimes = [];
                     }
                 } else {
@@ -161,7 +164,6 @@
 <body>
     <div class="background-B"></div>
     <div class="background-A"></div>
-    <div class="title"></div>
     <div class="button-wrapper">
         <div class="button-container">
             <button></button>
