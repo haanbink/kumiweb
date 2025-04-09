@@ -28,8 +28,8 @@
             color: white;
             font-family: 'AppleSDGothicM', sans-serif;
             text-align: center;
-            letter-spacing: 0.01em;
-            font-size: 19px;
+            /* letter-spacing: 0.01em; */
+            font-size: 20px;
             position: relative;
         }
         .background-B {
@@ -58,30 +58,30 @@
         }
         .button-wrapper {
             position: absolute;
-            bottom: 64px;
+            bottom: 67px;
             display: flex;
             justify-content: center;
             align-items: center;
-            width: calc(100% - 62px);
-            height: 82px;
+            width: calc(100% - 64px);
+            height: 85px;
             background-color: transparent;
             border: none;
             border-radius: 40px;
             z-index: 20;
-            transition: transform 0.1s linear;
+            /* transition: transform 0.1s linear; */
         }
         .button-mask {
             position: absolute;
-            bottom: 64px;
-            width: calc(100% - 62px);
-            height: 82px;
+            bottom: 67px;
+            width: calc(100% - 64px);
+            height: 85px;
             border-radius: 40px;
             background-color: transparent;
             display: flex;
             align-items: center;
-            padding-left: 120px;
-            padding-top: 2px;
-            font-size: 19px;
+            padding-left: 126px;
+            padding-top: 3px;
+            font-size: 20px;
             z-index: 19;
             overflow: hidden;
             pointer-events: none;
@@ -98,7 +98,7 @@
             align-items: center;
             height: 100%;
             width: 100%;
-            font-size: 19px;
+            font-size: 20px;
             background: radial-gradient(circle, white 5%, transparent 17%);
             background-size: 200% 100%;
             background-position: -100% 50%;
@@ -119,10 +119,10 @@
         .button-fill {
             position: absolute;
             left: 0;
-            bottom: 64px;
-            height: 82px;
+            bottom: 67px;
+            height: 85px;
             background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 40px;
+            border-radius: 43px;
             z-index: 18;
             display: block;
         }
@@ -137,8 +137,8 @@
         button {
             position: absolute;
             left: 0;
-            width: 70px;
-            height: 70px;
+            width: 74px;
+            height: 74px;
             border-radius: 50%;
             border: none;
             cursor: pointer;
@@ -165,8 +165,8 @@
 
             function updateFill(newLeft) {
                 const buttonCenter = newLeft + button.offsetWidth;
-                const fillLeft = buttonCenter - 38;
-                const fillWidth = buttonWrapper.clientWidth - fillLeft + 30;
+                const fillLeft = buttonCenter - 42;
+                const fillWidth = buttonWrapper.clientWidth - fillLeft + 32;
 
                 buttonFill.style.left = `${fillLeft}px`;
                 buttonFill.style.width = `${fillWidth}px`;
