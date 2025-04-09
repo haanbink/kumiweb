@@ -45,6 +45,7 @@
             opacity: 1;
             z-index: 10;
             pointer-events: none;
+            display: block;
             /* mix-blend-mode: screen; */
         }
         .title {
@@ -97,6 +98,7 @@
             let isDragging = false;
             let startX;
             let startLeft;
+            let hidden = false;
 
             function startDrag(event) {
                 isDragging = true;
@@ -116,8 +118,13 @@
 
             function endDrag() {
                 isDragging = false;
-                overlay.style.display = 'none';
-                buttonWrapper.style.display = 'none';
+                const buttonCenter = button.offsetLeft + button.offsetWidth / 2;
+                const containerCenter = container.clientWidth / 2;
+                if (buttonCenter > containerCenter) {
+                    overlay.style.display = 'none';
+                    buttonWrapper.style.display = 'none';
+                    hidden = true;
+                }
             }
 
             button.addEventListener("mousedown", startDrag);
@@ -127,15 +134,24 @@
             document.addEventListener("mouseup", endDrag);
             document.addEventListener("touchend", endDrag);
 
-            // 트리플 터치 감지
+            // 상단 영역에서 트리플 터치 감지
             let touchTimes = [];
-            body.addEventListener("touchend", (e) => {
-                const now = Date.now();
-                touchTimes.push(now);
-                touchTimes = touchTimes.filter(t => now - t < 1000);
-                if (touchTimes.length >= 3) {
-                    overlay.style.display = 'block';
-                    buttonWrapper.style.display = 'flex';
+            body.addEventListener("touchstart", (e) => {
+                const touchY = e.touches[0].clientY;
+                const screenHeight = window.innerHeight;
+
+                if (touchY < screenHeight / 2) {
+                    const now = Date.now();
+                    touchTimes.push(now);
+                    touchTimes = touchTimes.filter(t => now - t < 1000);
+
+                    if (touchTimes.length >= 3 && hidden) {
+                        overlay.style.display = 'block';
+                        buttonWrapper.style.display = 'flex';
+                        hidden = false;
+                        touchTimes = [];
+                    }
+                } else {
                     touchTimes = [];
                 }
             });
