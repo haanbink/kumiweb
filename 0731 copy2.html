@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>borig title</title>
+  <link rel="stylesheet" href="https://use.typekit.net/cor3fci.css">
+  <style>
+    @font-face {
+        font-family: "AkzidenzGrotesk";
+        src: url('./AkzidenzGroteskRegular.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    body {
+      margin: 0;
+      padding-left: 24px;
+      padding-right: 24px;
+      display: flex;
+      gap: 13px;
+      height: 100vh;
+      background: #fcfcfa;
+
+      /* font-family: "helvetica-neue-lt-pro", sans-serif;
+      font-weight: 500; */
+      font-family: "AkzidenzGrotesk", sans-serif;
+      font-weight: normal;
+      font-style: normal;
+
+      -webkit-user-select:none;
+      -moz-user-select:none;
+      -ms-user-select:none;
+      user-select:none;
+    }
+
+    .column {
+      z-index: 1;
+      flex: 1;
+      overflow-y: auto; /* 각 column에 스크롤 */
+      scrollbar-width: none;
+      position: relative;
+    }
+
+    .column::-webkit-scrollbar {
+      display: none;
+    }
+
+    .item {
+      position: absolute;
+      /* width: calc(100% - 20px); */
+      width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+
+      transform: opacity(0);
+      transition: transform 1s ease;
+    }
+
+    .item img {
+      width: 100%;
+      height: auto; /* 비율 유지 */
+      display: block;
+    }
+
+    .item p {
+      margin: 0;
+      font-size: 16px;
+      color: black;
+    }
+
+     iframe {
+        width : 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+    }
+
+    .expandable {
+      cursor: pointer;
+      white-space: pre-wrap;
+    }
+
+    .extra {
+      display: inline;
+      pointer-events: none;
+    }
+
+    .extra a {
+       pointer-events: auto;
+       /* text-decoration-line: none; */
+    }
+
+    .svg-bg {
+      position: absolute;
+      left: -21px;        /* x 포지션 */
+      top: 50%;          /* y 중심 */
+      transform: translateY(-50%); /* y 중심 정렬 */
+      z-index: 0;        /* 배경 레이어 */
+      pointer-events: none; /* 클릭 방지 */
+    }
+
+  </style>
+</head>
+<body>
+  <svg class="svg-bg" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="250" viewBox="0 0 40 250">
+    <defs>
+      <style>
+        .st0 {
+          stroke: #000;
+        }
+
+        .st0, .st1 {
+          stroke-width: .25px;
+        }
+
+        .st0, .st1, .st2 {
+          fill: none;
+        }
+
+        .st1 {
+          stroke: #040000;
+        }
+
+        .st3 {
+          fill: #f2f2f1;
+        }
+
+        .st4 {
+          fill: #0c0c0c;
+        }
+
+        .st5 {
+          fill: #7f7f80;
+        }
+
+        .st6 {
+          fill: #403f3f;
+        }
+
+        .st7 {
+          clip-path: url(#clippath-1);
+        }
+
+        .st8 {
+          fill: #bfbfbe;
+        }
+
+        .st9 {
+          clip-path: url(#clippath);
+        }
+      </style>
+      <clipPath id="clippath">
+        <rect class="st2" x="5.44" y="9.14" width="29.5" height="232"/>
+      </clipPath>
+      <clipPath id="clippath-1">
+        <rect class="st2" x="5.44" y="9.14" width="29.5" height="232"/>
+      </clipPath>
+    </defs>
+    <g class="st9">
+      <line class="st1" x1="20.44" y1="9.14" x2="20.44" y2="71.14"/>
+      <line class="st1" x1="34.94" y1="40.14" x2="5.44" y2="40.14"/>
+      <circle class="st1" cx="20.69" cy="40.39" r="6.13"/>
+    </g>
+    <rect x="10.19" y="101.14" width="20" height="20"/>
+    <rect class="st4" x="10.19" y="121.26" width="20" height="20"/>
+    <rect class="st6" x="10.19" y="141.14" width="20" height="20"/>
+    <rect class="st5" x="10.19" y="161.14" width="20" height="20"/>
+    <rect class="st3" x="10.19" y="201.01" width="20" height="20"/>
+    <rect class="st8" x="10.19" y="181.07" width="20" height="20"/>
+    <g class="st7">
+      <rect class="st0" x="10.32" y="101.26" width="19.75" height="139.75"/>
+    </g>
+    <line class="st0" x1="10.19" y1="121.14" x2="30.19" y2="121.14"/>
+    <line class="st0" x1="10.19" y1="201.01" x2="30.19" y2="201.01"/>
+    <line class="st0" x1="10.19" y1="161.14" x2="30.19" y2="161.14"/>
+    <line class="st0" x1="10.19" y1="141.14" x2="30.19" y2="141.14"/>
+    <line class="st0" x1="10.19" y1="221.01" x2="30.19" y2="221.01"/>
+    <line class="st0" x1="10.19" y1="181.14" x2="30.19" y2="181.14"/>
+  </svg>
+  <div class="column"></div>
+  <div class="column"></div>
+  <div class="column"></div>
+  <div class="column"></div>
+  <div class="column"></div>
+
+  <script>
+    const items = [
+      { 
+        video: "https://player.vimeo.com/video/1106137051?title=0&byline=0&portrait=0&background=0", 
+        name: "lee seokjun",
+        insert: "(<a href='https://www.instagram.com/__levenge__' target='_blank'>@__levenge__</a>) is the visual director and photographer for K-pop group Balming Tiger. he leads music video, album art, and branding, shaping the group&#39;s unique visual identity with a blend of analog and digital photography",
+        caption: ", untitled unt, single-channel video(color, sound), 24min 3s." 
+      },{
+        video: "https://player.vimeo.com/video/1106137051?title=0&byline=0&portrait=0&background=0", 
+        name: "lee sohyun",
+        insert: "(<a href='https://www.instagram.com/leesohynn' target='_blank'>@leesohynn</a>) is the visual director and photographer for K-pop group <a href='https://en.wikipedia.org/wiki/Balming_Tiger' target='_blank'>Balming Tiger</a>. he leads music video, album art, and branding, shaping the group&#39;s unique visual identity with a blend of analog and digital photography", 
+        caption: ", untitled, single-channel video(b&w, sound), 7min 52s." 
+      },{ 
+        video: "https://player.vimeo.com/video/1106137051?title=0&byline=0&portrait=0&background=0", 
+        name: "kwon jeheon",
+        insert: "(<a href='https://vimeo.com/arnelehor' target='_blank'>@arnelehor</a>) is the visual director and photographer for K-pop group Balming Tiger. he leads music video, album art, and branding, shaping the group&#39;s unique visual identity with a blend of analog and digital photography",
+        caption: ", untitled 2, single-channel video(color, sound), 11min 13s." 
+      },{ 
+        video: "https://player.vimeo.com/video/1106137051?title=0&byline=0&portrait=0&background=0", 
+        name: "hwang hyunjin",
+        insert: "(<a href='https://www.instagram.com/hwanghimalaya' target='_blank'>@hwanghimalaya</a>) is the visual director and photographer for K-pop group Balming Tiger. he leads music video, album art, and branding, shaping the group&#39;s unique visual identity with a blend of analog and digital photography",
+        caption: ", untitled, single-channel video(color, silent), 13min 3s." 
+      },{ 
+        video: "https://player.vimeo.com/video/1106137051?title=0&byline=0&portrait=0&background=0", 
+        name: "lee suho",
+        insert: "(<a href='https://www.instagram.com/leesuho.asia' target='_blank'>@leesuho.asia</a>) is the visual director and photographer for K-pop group Balming Tiger. he leads music video, album art, and branding, shaping the group&#39;s unique visual identity with a blend of analog and digital photography",
+        caption: ", untitled, single-channel video(color, sound), 3min 27s." 
+      },{
+        video: "https://player.vimeo.com/video/1106137051?title=0&byline=0&portrait=0&background=0", 
+        name: "hong chanhee",
+        insert: "(<a href='https://www.instagram.com/seoulthesoloist' target='_blank'>@seoulthesoloist</a>) is the visual director and photographer for K-pop group Balming Tiger. he leads music video, album art, and branding, shaping the group&#39;s unique visual identity with a blend of analog and digital photography",
+        caption: ", untitled video, single-channel video(color, sound), 2 min 34s." 
+      }
+    ];
+
+    const columns = document.querySelectorAll('.column');
+    const colCount = columns.length;
+
+    // 위치 기록
+    const usedPositions = Array.from({ length: colCount }, () => new Set());
+
+    // 1. 각 column에 최소 1개 배정
+    const shuffledItems = [...items].sort(() => Math.random() - 0.5);
+    shuffledItems.forEach((data, index) => {
+      if (index < colCount) {
+        placeItem(data, index);
+      }
+    });
+
+    // 2. 남은 아이템 랜덤 column에 배정
+    for (let i = colCount; i < shuffledItems.length; i++) {
+      const randCol = Math.floor(Math.random() * colCount);
+      placeItem(shuffledItems[i], randCol);
+    }
+
+    function placeItem(data, colIndex) {
+      const col = columns[colIndex];
+      const step = 90;
+      const maxStep = 10;
+
+      let pos;
+      do {
+        pos = Math.floor(Math.random() * maxStep) * step;
+      } while (usedPositions[colIndex].has(pos));
+      usedPositions[colIndex].add(pos);
+
+      const el = document.createElement('div');
+      el.className = 'item';
+      el.style.top = pos + 'px';
+      el.innerHTML = `
+        <iframe src="${data.video}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"></iframe>
+        <p><span class="expandable" data-insert="${data.insert}">${data.name}</span>${data.caption}</p>
+      `;
+      col.appendChild(el);
+    }
+
+    //토글
+    function buildAnimatedFragment(rawHTML) {
+      const container = document.createElement('span');
+      container.className = 'extra';
+      const temp = document.createElement('div');
+      temp.innerHTML = rawHTML;
+
+      const chars = []; // 순서대로 나타낼 <span.char>들을 모아 둠
+
+      function walk(node, parent) {
+        if (node.nodeType === Node.TEXT_NODE) {
+          for (const ch of [...node.textContent]) {
+            const s = document.createElement('span');
+            s.className = 'char';
+            s.textContent = ch;
+            s.style.opacity = '0';
+            parent.appendChild(s);
+            chars.push(s);
+          }
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+          const clone = node.cloneNode(false); // <a> 등 태그는 유지
+          parent.appendChild(clone);
+          node.childNodes.forEach(child => walk(child, clone));
+        }
+      }
+
+      temp.childNodes.forEach(n => walk(n, container));
+      return { container, chars };
+    }
+
+    // 토글 클릭 핸들러 (교체)
+    document.addEventListener('click', e => {
+      const word = e.target.closest('.expandable');
+      if (!word) return;
+
+      const existing = word.nextElementSibling;
+      if (existing && existing.classList.contains('extra')) {
+        existing.remove();
+        return;
+      }
+
+      const { container, chars } = buildAnimatedFragment('' + word.dataset.insert);
+      word.insertAdjacentElement('afterend', container);
+
+      const step = 30; // 글자 간 간격(ms)
+      chars.forEach((span, i) => {
+        setTimeout(() => { span.style.opacity = '1'; }, i * step);
+      });
+    });
+
+  </script>
+
+</body>
+</html>
