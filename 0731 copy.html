@@ -2,30 +2,29 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>borig title</title>
+  <title>boring proj</title>
   <link rel="stylesheet" href="https://use.typekit.net/cor3fci.css">
   <style>
     @font-face {
         font-family: "AkzidenzGrotesk";
-        src: url('https://github.com/haanbink/kumiweb/blob/c2af26b96b2414da5339fe93c34903947475256b/AkzidenzGroteskRegular.otf') format('opentype');
+        src: url('./AkzidenzGroteskRegular.otf') format('opentype');
         font-weight: normal;
         font-style: normal;
     }
 
     body {
       margin: 0;
-      padding-left: 24px;
-      padding-right: 24px;
+      padding: 0 24px 0 24px;
       display: flex;
       gap: 13px;
       height: 100vh;
       background: #fcfcfa;
+      overflow-x: hidden;
 
       /* font-family: "helvetica-neue-lt-pro", sans-serif;
       font-weight: 500; */
       font-family: "AkzidenzGrotesk", sans-serif;
-      font-weight: normal;
-      font-style: normal;
+      font-size: 15px;
 
       -webkit-user-select:none;
       -moz-user-select:none;
@@ -45,6 +44,9 @@
     .column {
       z-index: 1;
       flex: 1;
+      display: flex;
+      flex-direction: column;
+
       overflow-y: auto; /* 각 column에 스크롤 */
       scrollbar-width: none;
       position: relative;
@@ -55,14 +57,19 @@
     }
 
     .item {
-      position: absolute;
+      position: auto;
       /* width: calc(100% - 20px); */
       width: 100%;
       box-sizing: border-box;
-      overflow: hidden;
+      /* overflow: hidden; */
 
       transform: opacity(0);
       transition: transform 1s ease;
+
+      color: black;
+      font-size: 1rem;
+      line-height: 1.33;
+
     }
 
     .item img {
@@ -73,14 +80,28 @@
 
     .item p {
       margin: 0;
-      font-size: 16px;
-      color: black;
     }
 
-     iframe {
-        width : 100%;
-        aspect-ratio: 16 / 9;
-        object-fit: cover;
+    .control {
+      margin-top: 2px;
+      width: 100%;
+      height: auto;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 2rem;
+    } 
+
+    .video-container {
+      position: relative;
+      width: 100%;
+      margin: auto;
+    }
+
+    video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      cursor: pointer;
     }
 
     .expandable {
@@ -108,7 +129,7 @@
     }
 
     .extra a:active{
-      color : red;
+      color: red;
     }
 
     .extra a i b{
@@ -125,19 +146,54 @@
       text-decoration-line: none;
     }
 
-    .svg-bg {
+    .svg-bg-1 {
       position: absolute;
-      left: -21px;        /* x 포지션 */
-      top: 50%;          /* y 중심 */
-      transform: translateY(-50%); /* y 중심 정렬 */
-      z-index: 0;        /* 배경 레이어 */
-      pointer-events: none; /* 클릭 방지 */
+      left: -21px;
+      top: calc(50% + 40px); 
+      transform: translateY(-50%); 
+      z-index: 0;
+      pointer-events: none;
     }
+
+    .svg-bg-2 {
+      position: absolute;
+      right: -21px;
+      top: calc(50% + 40px);
+      transform: translateY(-50%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    #playPause {
+      cursor: pointer;
+    }
+
+    .con-3 {
+      width: 100%;
+      text-align: right;
+    }
+
+    button {
+      width: 1rem;
+      height: 100%;
+
+      background: inherit; 
+      border:none; 
+      box-shadow:none; 
+      border-radius:0; 
+      padding:0; 
+      cursor:pointer;
+      margin: auto;
+    }
+
+    /* button svg{
+       vertical-align: middle;
+    } */
 
   </style>
 </head>
 <body>
-  <svg class="svg-bg" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="250" viewBox="0 0 40 250">
+  <svg class="svg-bg-1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="250" viewBox="0 0 40 250">
     <defs>
       <style>
         .st0 {
@@ -153,65 +209,74 @@
         }
 
         .st1 {
-          stroke: #040000;
+          stroke: #000000;
         }
 
-        .st3 {
-          fill: #f2f2f1;
-        }
-
-        .st4 {
+        .f05 {
           fill: #0c0c0c;
         }
 
-        .st5 {
-          fill: #7f7f80;
+        .f25 {
+          fill: #3f3f3f;
         }
 
-        .st6 {
-          fill: #403f3f;
+        .f50 {
+          fill: #7f7f7f;
         }
 
-        .st7 {
-          clip-path: url(#clippath-1);
+        .f75 {
+          fill: #bfbfbf;
         }
 
-        .st8 {
-          fill: #bfbfbe;
+        .f95 {
+          fill: #f2f2f2;
+        }
+        
+        .f100 {
+          fill: #ffffff;
         }
 
-        .st9 {
-          clip-path: url(#clippath);
-        }
       </style>
-      <clipPath id="clippath">
-        <rect class="st2" x="5.44" y="9.14" width="29.5" height="232"/>
-      </clipPath>
-      <clipPath id="clippath-1">
-        <rect class="st2" x="5.44" y="9.14" width="29.5" height="232"/>
-      </clipPath>
+
     </defs>
     <g class="st9">
-      <line class="st1" x1="20.44" y1="9.14" x2="20.44" y2="71.14"/>
-      <line class="st1" x1="34.94" y1="40.14" x2="5.44" y2="40.14"/>
-      <circle class="st1" cx="20.69" cy="40.39" r="6.13"/>
+      <line class="st1" x1="20" y1="10" x2="20" y2="72"/>
+      <line class="st1" x1="35" y1="40" x2="5" y2="40"/>
+      <circle class="st1" cx="20" cy="40" r="6"/>
     </g>
-    <rect x="10.19" y="101.14" width="20" height="20"/>
-    <rect class="st4" x="10.19" y="121.26" width="20" height="20"/>
-    <rect class="st6" x="10.19" y="141.14" width="20" height="20"/>
-    <rect class="st5" x="10.19" y="161.14" width="20" height="20"/>
-    <rect class="st3" x="10.19" y="201.01" width="20" height="20"/>
-    <rect class="st8" x="10.19" y="181.07" width="20" height="20"/>
-    <g class="st7">
-      <rect class="st0" x="10.32" y="101.26" width="19.75" height="139.75"/>
+    <rect x="10" y="100" width="20" height="20"/>
+    <rect class="f05" x="10" y="120" width="20" height="20"/>
+    <rect class="f25" x="10" y="140" width="20" height="20"/>
+    <rect class="f50" x="10" y="160" width="20" height="20"/>
+    <rect class="f75" x="10" y="180" width="20" height="20"/>
+    <rect class="f95" x="10" y="200" width="20" height="20"/>
+    <rect class="f100" x="10" y="220" width="20" height="20"/>
+    <g class="st2">
+      <rect class="st0" x="10" y="100" width="20" height="140"/>
     </g>
-    <line class="st0" x1="10.19" y1="121.14" x2="30.19" y2="121.14"/>
-    <line class="st0" x1="10.19" y1="201.01" x2="30.19" y2="201.01"/>
-    <line class="st0" x1="10.19" y1="161.14" x2="30.19" y2="161.14"/>
-    <line class="st0" x1="10.19" y1="141.14" x2="30.19" y2="141.14"/>
-    <line class="st0" x1="10.19" y1="221.01" x2="30.19" y2="221.01"/>
-    <line class="st0" x1="10.19" y1="181.14" x2="30.19" y2="181.14"/>
+    <line class="st0" x1="10" y1="120" x2="30" y2="120"/>
+    <line class="st0" x1="10" y1="140" x2="30" y2="140"/>
+    <line class="st0" x1="10" y1="160" x2="30" y2="160"/>
+    <line class="st0" x1="10" y1="180" x2="30" y2="180"/>
+    <line class="st0" x1="10" y1="200" x2="30" y2="200"/>
+    <line class="st0" x1="10" y1="220" x2="30" y2="220"/>
   </svg>
+  <svg class="svg-bg-2" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="250" viewBox="0 0 40 250">
+    <defs>
+      <style>
+        .st0 {
+          stroke: #000;
+          stroke-width: .25px;
+        }
+      </style>
+    </defs>
+    <g class="st0">
+      <line class="st1" x1="20" y1="10" x2="20" y2="72"/>
+      <line class="st1" x1="35" y1="40" x2="5" y2="40"/>
+      <circle class="st1" cx="20" cy="40" r="6"/>
+    </g>
+  </svg>
+
   <div class="column"></div>
   <div class="column"></div>
   <div class="column"></div>
@@ -221,32 +286,38 @@
   <script>
     const items = [
       { 
-        video: "https://player.vimeo.com/video/1106137051?title=0&byline=0&portrait=0&background=0", 
+        video: "https://player.vimeo.com/progressive_redirect/playback/1079349393/rendition/1080p/file.mp4?loc=external&amp;signature=ed914a46a9b1c0e32d6316f3d2d75e3f121e795ce7af8de86114a3157d5574ec", 
+        ratio: "16/9",
         name: "lee seokjun",
-        insert: "<a href='https://www.instagram.com/__levenge__' target='_blank'><i>(</i><b>@__levenge__</b></a>) is the visual director and photographer for K-pop group Balming Tiger. he leads music video, album art, and branding, shaping the group&#39;s unique visual identity with a blend of analog and digital photography",
+        insert: "<a href='https://www.instagram.com/__levenge__' target='_blank'><i>(</i><u>@</u><b>__levenge__</b></a>) is the visual director and photographer for K-pop group Balming Tiger. he leads music video, album art, and branding, shaping the group&#39;s unique visual identity with a blend of analog and digital photography",
         caption: ", untitled unt, single-channel video(color, sound), 24min 3s." 
       },{
-        video: "https://player.vimeo.com/video/1106137051?title=0&byline=0&portrait=0&background=0", 
+        video: "https://player.vimeo.com/progressive_redirect/playback/1079349393/rendition/1080p/file.mp4?loc=external&amp;signature=ed914a46a9b1c0e32d6316f3d2d75e3f121e795ce7af8de86114a3157d5574ec", 
+        ratio: "16/9",
         name: "lee sohyun",
-        insert: "<a href='https://www.instagram.com/leesohynn' target='_blank'><i>(</i><b>@leesohynn</b></a>) is the visual director and photographer for K-pop group Balming Tiger. he leads music video, album art, and branding, shaping the group&#39;s unique visual identity with a blend of analog and digital photography", 
+        insert: "<a href='https://www.instagram.com/leesohynn' target='_blank'><i>(</i><u>@</u><b>leesohynn</b></a>) is the visual director and photographer for K-pop group Balming Tiger. he leads music video, album art, and branding, shaping the group&#39;s unique visual identity with a blend of analog and digital photography", 
         caption: ", untitled, single-channel video(b&w, sound), 7min 52s." 
       },{ 
-        video: "https://player.vimeo.com/video/1106137051?title=0&byline=0&portrait=0&background=0", 
+        video: "https://player.vimeo.com/progressive_redirect/playback/1079349393/rendition/1080p/file.mp4?loc=external&amp;signature=ed914a46a9b1c0e32d6316f3d2d75e3f121e795ce7af8de86114a3157d5574ec", 
+        ratio: "4/3",
         name: "kwon jeheon",
-        insert: "<a href='https://vimeo.com/arnelehor' target='_blank'><i>(</i><b>@arnelehor</b></a>) is the visual director and photographer for K-pop group Balming Tiger. he leads music video, album art, and branding, shaping the group&#39;s unique visual identity with a blend of analog and digital photography",
+        insert: "<a href='https://vimeo.com/arnelehor' target='_blank'><i>(</i><u>@</u><b>arnelehor</b></a>) is the visual director and photographer for K-pop group Balming Tiger. he leads music video, album art, and branding, shaping the group&#39;s unique visual identity with a blend of analog and digital photography",
         caption: ", untitled 2, single-channel video(color, sound), 11min 13s." 
       },{ 
-        video: "https://player.vimeo.com/video/1106137051?title=0&byline=0&portrait=0&background=0", 
+        video: "https://player.vimeo.com/progressive_redirect/playback/1079349393/rendition/1080p/file.mp4?loc=external&amp;signature=ed914a46a9b1c0e32d6316f3d2d75e3f121e795ce7af8de86114a3157d5574ec", 
+        ratio: "16/9",
         name: "hwang hyunjin",
-        insert: "<a href='https://www.instagram.com/hwanghimalaya' target='_blank'><i>(</i><b>@hwanghimalaya</b></a>) is the visual director and photographer for K-pop group Balming Tiger. he leads music video, album art, and branding, shaping the group&#39;s unique visual identity with a blend of analog and digital photography",
+        insert: "<a href='https://www.instagram.com/hwanghimalaya' target='_blank'><i>(</i><u>@</u><b>hwanghimalaya</b></a>) is the visual director and photographer for K-pop group Balming Tiger. he leads music video, album art, and branding, shaping the group&#39;s unique visual identity with a blend of analog and digital photography",
         caption: ", untitled, single-channel video(color, silent), 13min 3s." 
       },{ 
-        video: "https://player.vimeo.com/video/1106137051?title=0&byline=0&portrait=0&background=0", 
+        video: "https://player.vimeo.com/progressive_redirect/playback/1079349393/rendition/1080p/file.mp4?loc=external&amp;signature=ed914a46a9b1c0e32d6316f3d2d75e3f121e795ce7af8de86114a3157d5574ec", 
+        ratio: "16/9",
         name: "lee suho",
-        insert: "<a href='https://www.instagram.com/leesuho.asia' target='_blank'><i>(</i><b>@leesuho.asia</b></a>) is the visual director and photographer for K-pop group Balming Tiger. he leads music video, album art, and branding, shaping the group&#39;s unique visual identity with a blend of analog and digital photography",
+        insert: "<a href='https://www.instagram.com/leesuho.asia' target='_blank'><i>(</i><u>@</u><b>leesuho.asia</b></a>) is the visual director and photographer for K-pop group Balming Tiger. he leads music video, album art, and branding, shaping the group&#39;s unique visual identity with a blend of analog and digital photography",
         caption: ", untitled, single-channel video(color, sound), 3min 27s." 
       },{
-        video: "https://player.vimeo.com/video/1106137051?title=0&byline=0&portrait=0&background=0", 
+        video: "https://player.vimeo.com/progressive_redirect/playback/1079349393/rendition/1080p/file.mp4?loc=external&amp;signature=ed914a46a9b1c0e32d6316f3d2d75e3f121e795ce7af8de86114a3157d5574ec", 
+        ratio: "16/9",
         name: "hong chanhee",
         insert: "<a href='https://www.instagram.com/seoulthesoloist' target='_blank'><i>(</i><u>@</u><b>seoulthesoloist</b></a>) is the visual director and photographer for K-pop group Balming Tiger. he leads music video, album art, and branding, shaping the group&#39;s unique visual identity with a blend of analog and digital photography",
         caption: ", untitled video, single-channel video(color, sound), 2 min 34s." 
@@ -276,23 +347,99 @@
     function placeItem(data, colIndex) {
       const col = columns[colIndex];
       const step = 90;
-      const maxStep = 10;
+      const maxStep = 6;
 
       let pos;
       do {
-        pos = Math.floor(Math.random() * maxStep) * step;
+        pos = Math.floor(Math.random() * maxStep) * step + 23;
       } while (usedPositions[colIndex].has(pos));
       usedPositions[colIndex].add(pos);
 
       const el = document.createElement('div');
       el.className = 'item';
-      el.style.top = pos + 'px';
+      el.style.marginTop = pos + 'px';
       el.innerHTML = `
-        <iframe src="${data.video}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"></iframe>
-        <p><span class="expandable" data-insert="${data.insert}">${data.name}</span>${data.caption}</p>
+        <div class="video-container">
+          <video class="video" @click="playpause()" style="aspect-ratio: ${data.ratio};" src="${data.video}" type="video/mp4" preload="metadata"></video>
+          <div class="control">
+            <p class="time">00:00</p>
+            <p class="playPause">play</p>
+            <p></p>
+            <div class="con-3">
+              <button class="fullscreen">
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 12 12">
+                  <defs><style> .st0 { fill: none; stroke: #000; stroke-width: 1.1px;} </style></defs>
+                  <polyline class="st0" points="7 2 11 2 11 6"/>
+                  <polyline class="st0" points="6 11 2 11 2 7"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <p><span class="expandable" data-insert="${data.insert}">${data.name}</span>${data.caption}</p>
+        </div>
       `;
       col.appendChild(el);
     }
+    document.querySelectorAll('.video-container').forEach(container => {
+      const video = container.querySelector('.video');
+      const playPause = container.querySelector('.playPause');
+      const timeDisplay = container.querySelector('.time');
+      const fullscreen = container.querySelector('.fullscreen');
+
+      function formatTime(seconds) {
+        const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+        const s = Math.floor(seconds % 60).toString().padStart(2, '0');
+        return `${m}:${s}`;
+      }
+
+      function togglePlayPause() {
+        if (video.paused) {
+          video.play();
+          playPause.textContent = 'pause';
+        } else {
+          video.pause();
+          playPause.textContent = 'play';
+        }
+      }
+
+      video.addEventListener('click', togglePlayPause);
+      playPause.addEventListener('click', togglePlayPause);
+
+      video.addEventListener('timeupdate', () => {
+        timeDisplay.textContent = `${formatTime(video.currentTime)}`;
+      });
+
+      video.addEventListener('pause', () => {
+        playPause.textContent = 'play';
+      });
+
+      video.addEventListener('play', () => {
+        playPause.textContent = 'pause';
+      });
+
+      fullscreen.addEventListener('click', () => {
+        // 현재 컨테이너 안의 video
+        const currentVideo = video;
+
+        // 다른 모든 video 멈춤
+        document.querySelectorAll('video').forEach(v => {
+          if (v !== currentVideo && !v.paused) {
+            v.pause();
+          }
+        });
+
+        if (currentVideo.paused) {
+          currentVideo.play();
+        }
+
+        // fullscreen 전환
+        if (!document.fullscreenElement) {
+          container.requestFullscreen();
+        } else {
+          document.exitFullscreen();
+        }
+      });
+    });
 
     //토글
     function buildAnimatedFragment(rawHTML, onCharReady) {
@@ -349,5 +496,4 @@
   </script>
 
 </body>
-
 </html>
